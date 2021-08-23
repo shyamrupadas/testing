@@ -3,19 +3,20 @@ import './App.css';
 import { Introduction } from './Introduction';
 import { Testing } from './Testing';
 import { ResultPage } from './ResultPage';
+import { TestQuestionsType, TestResultsType } from './types/types';
 
 function App() {
 
+
   const testDescription: string = `
-  Здравствуйте!
+  Здравствуйте! <br />
   Предлагаем пройти наше <strong>тестирование<strong>
   `;
 
-  type TestQuestionsItem = {
-    id: number
-    questionText: string
-  };
-  type TestQuestionsType = Array<TestQuestionsItem>;
+  const finishedTestDescription: string = `
+   Спасибо большое, что приняли участие в нашем <strong>тестировании<strong>.<br />
+   Всего вам доброго
+  `;
 
   const testQuestions: TestQuestionsType = [
     {
@@ -32,12 +33,6 @@ function App() {
     },
   ];
 
-  type TestResultsItem = {
-    id: number
-    questionResult: 'yes' | 'no'
-  };
-  type TestResultsType = Array<TestResultsItem>;
-
   const testResults: TestResultsType = [];
 
   const [isTestStarted, setIsTestStarted] = useState(false);
@@ -45,17 +40,21 @@ function App() {
 
   const startTesting = () => {
     setIsTestStarted(true);
+    setIsFinished(false);
   }
 
   const finishTesting = () => {
     setIsFinished(true);
   }
 
-    return (
+  return (
     <div>
-      {!isTestStarted && <Introduction startTesting={startTesting}/>}
-      {isTestStarted && !isTestFinished && <Testing finishTesting={finishTesting}/>}
-      {isTestStarted && isTestFinished && <ResultPage /> }
+      {!isTestStarted && <Introduction startTesting={startTesting}
+                                       testDescription={testDescription} />}
+      {isTestStarted && !isTestFinished && <Testing finishTesting={finishTesting}
+                                                    testQuestions={testQuestions} />}
+      {isTestStarted && isTestFinished && <ResultPage startTesting={startTesting}
+                                                      finishedTestDescription={finishedTestDescription} />}
     </div>
   );
 }
