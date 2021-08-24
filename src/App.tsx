@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './App.css';
-import { Introduction } from './Introduction';
-import { Testing } from './Testing';
-import { ResultPage } from './ResultPage';
+import { Introduction } from './component/Introduction';
+import { Testing } from './component/Testing';
+import { ResultPage } from './component/ResultPage';
 import { TestQuestionsType, TestResultsType } from './types/types';
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
       questionText: `Это второй вопрос.<br /> Пожалуйста, ответьте "да" или "нет". Описание этого вопроса более длинное.`
     },
     {
-      id: 1,
+      id: 3,
       questionText: `Это третий вопрос.<br /> Пожалуйста, ответьте "да" или "нет". Описание этого вопроса еще более длинное.`
     },
   ];
