@@ -23,7 +23,8 @@ export const Testing: React.FC<IntroductionType> = ({ finishTesting, testQuestio
                                                      question={q}
                                                      quantity={questionsQuantity}
                                                      index={index}
-                                                     currentQuestion={currentQuestion}/>)
+                                                     currentQuestion={currentQuestion}
+                                                     setCurrentQuestion={setCurrentQuestion} />)
     }
     <Button onClick={finishTesting}>Закончить тест</Button>
   </div>
