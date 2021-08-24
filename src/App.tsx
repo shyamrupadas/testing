@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { Introduction } from './component/Introduction';
 import { Testing } from './component/Testing';
@@ -32,38 +32,36 @@ function App() {
     },
   ];
 
-  let testResults: TestResultsType = [];
+  const [testResults, setTesResults] = useState([]);
 
-  const [isTestStarted, setIsTestStarted] = useState(false);
-  const [isTestFinished, setIsFinished] = useState(false);
+  const [isTestStarted, setIsTestStarted] = useState(
+    JSON.parse(localStorage.getItem('isTestStarted') as string) || false);
+  const [isTestFinished, setIsTestFinished] = useState(
+    JSON.parse(localStorage.getItem('isTestFinished') as string) || false);
+  const [currentQuestion, setCurrentQuestion] = useState(
+    JSON.parse(localStorage.getItem('currentQuestion') as string) || 0);
 
   const initializeApp = () => {
     setIsTestStarted(false);
     saveIsTestStarted(false);
-    setIsFinished(false);
+    saveIsTestFinished(false);
     initializeResult();
-    testResults = [];
     saveCurrentQuestion(0);
-  }
 
-  const syncTestResult = () => {
-    testResults = JSON.parse(localStorage.getItem('testResults') as string)
   }
-
-  useEffect(initializeApp, []);
-  useEffect(syncTestResult, []);
 
   const startTesting = () => {
-    setIsTestStarted(true);
     saveIsTestStarted(true);
+    saveCurrentQuestion(1);
+    initializeResult();
   }
 
   const finishTesting = () => {
-    setIsFinished(true);
-    initializeResult();
+    saveIsTestFinished(true);
   }
 
   const initializeResult = () => {
+    setTesResults([]);
     localStorage.setItem('testResults', JSON.stringify([]));
   }
 
@@ -72,10 +70,17 @@ function App() {
   }
 
   const saveIsTestStarted = (isTestStarted: boolean) => {
+    setIsTestStarted(isTestStarted);
     localStorage.setItem('isTestStarted', JSON.stringify(isTestStarted));
   }
 
+  const saveIsTestFinished = (isTestFinished: boolean) => {
+    setIsTestFinished(isTestFinished);
+    localStorage.setItem('isTestFinished', JSON.stringify(isTestFinished));
+  }
+
   const saveCurrentQuestion = (currentQuestion: number) => {
+    setCurrentQuestion(currentQuestion);
     localStorage.setItem('currentQuestion', JSON.stringify(currentQuestion));
   }
 
@@ -88,10 +93,12 @@ function App() {
                                                     testQuestions={testQuestions}
                                                     testResults={testResults}
                                                     saveResult={saveResult}
+                                                    currentQuestion={currentQuestion}
                                                     saveCurrentQuestion={saveCurrentQuestion}
       />}
       {isTestStarted && isTestFinished && <ResultPage initializeApp={initializeApp}
                                                       finishedTestDescription={finishedTestDescription}
+                                                      testResults={testResults}
       />}
     </div>
   );

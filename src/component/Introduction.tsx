@@ -6,18 +6,17 @@ type IntroductionType = {
   testDescription: string
 };
 
-export const Introduction: React.FC<IntroductionType> = ({
-                                                           startTesting,
-                                                           testDescription
-                                                         }) => {
+export const Introduction: React.FC<IntroductionType> = ({ startTesting, testDescription }) => {
+
+  const createMarkup = () => {
+    return { __html: testDescription };
+  }
 
   return <div>
     <h1>
       Тестирование
     </h1>
-    <div>
-      {testDescription}
-    </div>
+    <div dangerouslySetInnerHTML={createMarkup()} />
     <Button onClick={startTesting}>Начать тест</Button>
   </div>
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { TestQuestionsType, TestResultsType } from '../types/types';
 import { QuestionsItem } from './QuestionsItem';
 
@@ -7,6 +7,7 @@ type IntroductionType = {
   testQuestions: TestQuestionsType
   testResults: TestResultsType
   saveResult: (result: TestResultsType) => void
+  currentQuestion: number
   saveCurrentQuestion: (currentQuestion: number) => void
 };
 
@@ -14,10 +15,11 @@ export const Testing: React.FC<IntroductionType> = ({
                                                       finishTesting,
                                                       testQuestions,
                                                       testResults,
-                                                      saveResult, saveCurrentQuestion
+                                                      saveResult,
+                                                      currentQuestion,
+                                                      saveCurrentQuestion,
                                                     }) => {
 
-  const [currentQuestion, setCurrentQuestion] = useState(1);
 
   useEffect(() => saveCurrentQuestion(currentQuestion), [currentQuestion])
 
@@ -34,10 +36,10 @@ export const Testing: React.FC<IntroductionType> = ({
         quantity={questionsQuantity}
         index={index}
         currentQuestion={currentQuestion}
-        setCurrentQuestion={setCurrentQuestion}
         finishTesting={finishTesting}
         testResults={testResults}
         saveResult={saveResult}
+        saveCurrentQuestion={saveCurrentQuestion}
       />)
     }
   </div>
