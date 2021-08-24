@@ -10,7 +10,7 @@ export const Introduction: React.FC<IntroductionType> = ({ startTesting, testDes
 
   return <div>
     <h1>
-      Introduction
+      Тестирование
     </h1>
     <div>
       {testDescription}

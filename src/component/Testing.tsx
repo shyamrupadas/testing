@@ -19,13 +19,15 @@ export const Testing: React.FC<IntroductionType> = ({ finishTesting, testQuestio
       Testing
     </h1>
     {
-      testQuestions.map((q, index) => <QuestionsItem key={q.id}
-                                                     question={q}
-                                                     quantity={questionsQuantity}
-                                                     index={index}
-                                                     currentQuestion={currentQuestion}
-                                                     setCurrentQuestion={setCurrentQuestion} />)
+      testQuestions.map((q, index) => <QuestionsItem
+        key={q.id}
+        question={q}
+        quantity={questionsQuantity}
+        index={index}
+        currentQuestion={currentQuestion}
+        setCurrentQuestion={setCurrentQuestion}
+        finishTesting={finishTesting}
+      />)
     }
-    <Button onClick={finishTesting}>Закончить тест</Button>
   </div>
 };

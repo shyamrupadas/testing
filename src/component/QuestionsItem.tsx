@@ -8,6 +8,7 @@ type QuestionsItemType = {
   index: number
   currentQuestion: number
   setCurrentQuestion: Dispatch<SetStateAction<number>>
+  finishTesting: () => void
 };
 
 export const QuestionsItem: React.FC<QuestionsItemType> = ({
@@ -15,7 +16,8 @@ export const QuestionsItem: React.FC<QuestionsItemType> = ({
                                                              quantity,
                                                              index,
                                                              currentQuestion,
-                                                             setCurrentQuestion
+                                                             setCurrentQuestion,
+                                                             finishTesting
                                                            }) => {
   const visibleStyle: CSSProperties = { display: 'none' };
   const visibleOn = () => {
@@ -24,16 +26,17 @@ export const QuestionsItem: React.FC<QuestionsItemType> = ({
 
   index === currentQuestion && visibleOn();
 
-  const setNextQuestion = () => {
+  const onButton = () => {
+    quantity === index + 1 && finishTesting();
     setCurrentQuestion(prevState => prevState + 1)
-  }
+  };
 
   return <div style={visibleStyle}>
     <div>
       {question.questionText}
     </div>
-    <Button onClick={setNextQuestion}>Да</Button>
-    <Button onClick={setNextQuestion}>Нет</Button>
+    <Button onClick={onButton}>Да</Button>
+    <Button onClick={onButton}>Нет</Button>
     <div>
       Вопрос {index + 1} из {quantity}.
     </div>
