@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { Button } from 'reactstrap';
 
 type IntroductionType = {
@@ -7,7 +7,8 @@ type IntroductionType = {
 };
 
 export const Introduction: React.FC<IntroductionType> = ({ startTesting, testDescription }) => {
-  return <>
+
+  return <div>
     <h1>
       Introduction
     </h1>
@@ -15,5 +16,5 @@ export const Introduction: React.FC<IntroductionType> = ({ startTesting, testDes
       {testDescription}
     </div>
     <Button onClick={startTesting}>Начать тест</Button>
-  </>
+  </div>
 };

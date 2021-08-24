@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties, useState } from 'react';
 import { Button } from 'reactstrap';
 import { TestQuestionsType } from '../types/types';
 import { QuestionsItem } from './QuestionsItem';
@@ -10,17 +10,21 @@ type IntroductionType = {
 
 export const Testing: React.FC<IntroductionType> = ({ finishTesting, testQuestions }) => {
 
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+
   const questionsQuantity = testQuestions.length;
 
-  return <>
+  return <div>
     <h1>
       Testing
     </h1>
     {
       testQuestions.map((q, index) => <QuestionsItem key={q.id}
-                                            question={q}
-                                            quantity={questionsQuantity} index={index}/>)
+                                                     question={q}
+                                                     quantity={questionsQuantity}
+                                                     index={index}
+                                                     currentQuestion={currentQuestion}/>)
     }
     <Button onClick={finishTesting}>Закончить тест</Button>
-  </>
+  </div>
 };
