@@ -32,7 +32,8 @@ function App() {
     },
   ];
 
-  const [testResults, setTesResults] = useState([]);
+  const [testResults, setTesResults] = useState(
+    JSON.parse(localStorage.getItem('testResults') as string) || []);
 
   const [isTestStarted, setIsTestStarted] = useState(
     JSON.parse(localStorage.getItem('isTestStarted') as string) || false);
