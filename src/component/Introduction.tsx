@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { Button } from 'reactstrap';
 
 type IntroductionType = {
@@ -6,7 +6,10 @@ type IntroductionType = {
   testDescription: string
 };
 
-export const Introduction: React.FC<IntroductionType> = ({ startTesting, testDescription }) => {
+export const Introduction: React.FC<IntroductionType> = ({
+                                                           startTesting,
+                                                           testDescription
+                                                         }) => {
 
   return <div>
     <h1>

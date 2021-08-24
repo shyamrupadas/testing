@@ -1,16 +1,25 @@
-import React, { CSSProperties, useState } from 'react';
-import { Button } from 'reactstrap';
-import { TestQuestionsType } from '../types/types';
+import React, { useEffect, useState } from 'react';
+import { TestQuestionsType, TestResultsType } from '../types/types';
 import { QuestionsItem } from './QuestionsItem';
 
 type IntroductionType = {
   finishTesting: () => void
   testQuestions: TestQuestionsType
+  testResults: TestResultsType
+  saveResult: (result: TestResultsType) => void
+  saveCurrentQuestion: (currentQuestion: number) => void
 };
 
-export const Testing: React.FC<IntroductionType> = ({ finishTesting, testQuestions }) => {
+export const Testing: React.FC<IntroductionType> = ({
+                                                      finishTesting,
+                                                      testQuestions,
+                                                      testResults,
+                                                      saveResult, saveCurrentQuestion
+                                                    }) => {
 
-  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(1);
+
+  useEffect(() => saveCurrentQuestion(currentQuestion), [currentQuestion])
 
   const questionsQuantity = testQuestions.length;
 
@@ -27,6 +36,8 @@ export const Testing: React.FC<IntroductionType> = ({ finishTesting, testQuestio
         currentQuestion={currentQuestion}
         setCurrentQuestion={setCurrentQuestion}
         finishTesting={finishTesting}
+        testResults={testResults}
+        saveResult={saveResult}
       />)
     }
   </div>
