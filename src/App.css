@@ -1,0 +1,56 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app {
+}
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  padding: 60px 20px 60px 20px;
+  height: 70vh;
+}
+
+.mainBlock {
+padding: 20px 20px 20px 20px ;
+  width: 800px;
+  border: 1px darkgrey solid;
+  border-radius: 5px;
+  box-shadow: 2px 2px 2px darkgrey;
+}
+
+.contentBlock {
+  animation: showContentBlock .7s forwards;
+}
+
+@keyframes showContentBlock {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.questionsBlock {
+  animation: showQuestionsBlock .2s forwards;
+}
+
+@keyframes showQuestionsBlock {
+  0% {
+    opacity: 0;
+    transform: translateX(-500px);
+
+  }
+  100% {
+    opacity: 1;
+transform: translateX(0px);
+  }
+}
+
+.button {
+  margin: 20px 15px 20px 0;
+}

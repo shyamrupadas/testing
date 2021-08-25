@@ -8,13 +8,13 @@ import { TestQuestionsType, TestResultsType } from './types/types';
 function App() {
 
   const testDescription: string = `
-  Здравствуйте! <br />
-  Предлагаем пройти наше <strong>тестирование</strong>
+  <h3>Здравствуйте!</h3>
+  <p>Предлагаем пройти наше <strong>тестирование</strong></p>
   `;
 
   const finishedTestDescription: string = `
    Спасибо большое, что приняли участие в нашем <strong>тестировании</strong>.<br />
-   Всего вам доброго
+   Всего вам доброго!
   `;
 
   const testQuestions: TestQuestionsType = [
@@ -24,11 +24,11 @@ function App() {
     },
     {
       id: 2,
-      questionText: `Это второй вопрос.<br /> Пожалуйста, ответьте "да" или "нет". Описание этого вопроса более длинное.`
+      questionText: `Это второй вопрос.<br /> Пожалуйста, ответьте <strong>"да"</strong> или <strong>"нет"</strong>. Описание этого вопроса более длинное.`
     },
     {
       id: 3,
-      questionText: `Это третий вопрос.<br /> Пожалуйста, ответьте "да" или "нет". Описание этого вопроса еще более длинное.`
+      questionText: `Это третий вопрос.<br /> Пожалуйста, ответьте <strong>"да"</strong> или <strong>"нет"</strong>. Описание этого вопроса еще более длинное.`
     },
   ];
 
@@ -86,21 +86,23 @@ function App() {
   }
 
   return (
-    <div>
-      {!isTestStarted && <Introduction startTesting={startTesting}
-                                       testDescription={testDescription}
-      />}
-      {isTestStarted && !isTestFinished && <Testing finishTesting={finishTesting}
-                                                    testQuestions={testQuestions}
-                                                    testResults={testResults}
-                                                    saveResult={saveResult}
-                                                    currentQuestion={currentQuestion}
-                                                    saveCurrentQuestion={saveCurrentQuestion}
-      />}
-      {isTestStarted && isTestFinished && <ResultPage initializeApp={initializeApp}
-                                                      finishedTestDescription={finishedTestDescription}
+    <div className='app'>
+      <div className="wrap">
+        {!isTestStarted && <Introduction startTesting={startTesting}
+                                         testDescription={testDescription}
+        />}
+        {isTestStarted && !isTestFinished && <Testing finishTesting={finishTesting}
+                                                      testQuestions={testQuestions}
                                                       testResults={testResults}
-      />}
+                                                      saveResult={saveResult}
+                                                      currentQuestion={currentQuestion}
+                                                      saveCurrentQuestion={saveCurrentQuestion}
+        />}
+        {isTestStarted && isTestFinished && <ResultPage initializeApp={initializeApp}
+                                                        finishedTestDescription={finishedTestDescription}
+                                                        testResults={testResults}
+        />}
+      </div>
     </div>
   );
 }

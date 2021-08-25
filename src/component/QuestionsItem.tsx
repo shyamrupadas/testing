@@ -41,12 +41,12 @@ export const QuestionsItem: React.FC<QuestionsItemType> = ({
     return { __html: question.questionText }
   };
 
-return <div style={visibleStyle}>
-  <div dangerouslySetInnerHTML={createMarkup()} />
-  <Button onClick={(e) => onButton(e)}>Да</Button>
-  <Button onClick={(e) => onButton(e)}>Нет</Button>
-  <div>
-    Вопрос {index + 1} из {quantity}.
+  return <div style={visibleStyle} className='questionsBlock'>
+    <div className='questionsText' dangerouslySetInnerHTML={createMarkup()} />
+    <Button outline className='button' color='primary' onClick={(e) => onButton(e)}>Да</Button>
+    <Button outline className='button' color='danger' onClick={(e) => onButton(e)}>Нет</Button>
+    <div>
+      Вопрос {index + 1} из {quantity}.
+    </div>
   </div>
-</div>
 }

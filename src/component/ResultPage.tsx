@@ -17,19 +17,18 @@ export const ResultPage: React.FC<ResultPageType> = ({
     return { __html: finishedTestDescription };
   }
 
-  return <>
-    <h1>
-      ResultPage
-    </h1>
-    <div dangerouslySetInnerHTML={createMarkup()} />
-    <Button onClick={initializeApp}>Пройти заново</Button>
-    <h3>Ваши результаты</h3>
-    <div>
-      {testResults.map(r => {
-        return <div>
-          Вопрос {r.id} - {r.questionResult}
-        </div>
-      })}
+  return <div className='mainBlock'>
+    <div className='contentBlock'>
+      <div dangerouslySetInnerHTML={createMarkup()} />
+      <Button className='button' outline color='primary' onClick={initializeApp}>Пройти заново</Button>
+      <h4>Ваши результаты</h4>
+      <div>
+        {testResults.map(r => {
+          return <div>
+            Вопрос {r.id} - {r.questionResult}
+          </div>
+        })}
+      </div>
     </div>
-  </>
+  </div>
 };

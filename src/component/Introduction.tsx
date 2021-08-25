@@ -12,11 +12,10 @@ export const Introduction: React.FC<IntroductionType> = ({ startTesting, testDes
     return { __html: testDescription };
   }
 
-  return <div>
-    <h1>
-      Тестирование
-    </h1>
-    <div dangerouslySetInnerHTML={createMarkup()} />
-    <Button onClick={startTesting}>Начать тест</Button>
+  return <div className='mainBlock'>
+    <div className='contentBlock'>
+      <div dangerouslySetInnerHTML={createMarkup()} />
+      <Button className='button' color='primary' onClick={startTesting}>Начать тест</Button>
+    </div>
   </div>
 };

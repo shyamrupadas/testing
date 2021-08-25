@@ -20,15 +20,11 @@ export const Testing: React.FC<IntroductionType> = ({
                                                       saveCurrentQuestion,
                                                     }) => {
 
-
   useEffect(() => saveCurrentQuestion(currentQuestion), [currentQuestion])
 
   const questionsQuantity = testQuestions.length;
 
-  return <div>
-    <h1>
-      Testing
-    </h1>
+  return <div className='mainBlock'>
     {
       testQuestions.map((q, index) => <QuestionsItem
         key={q.id}
