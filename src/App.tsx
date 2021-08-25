@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './App.css';
 import { Introduction } from './component/Introduction';
 import { Testing } from './component/Testing';
@@ -42,32 +42,36 @@ function App() {
   const [currentQuestion, setCurrentQuestion] = useState(
     JSON.parse(localStorage.getItem('currentQuestion') as string) || 0);
 
-  const initializeApp = () => {
+  const initializeApp = useCallback(() => {
     setIsTestStarted(false);
     saveIsTestStarted(false);
     saveIsTestFinished(false);
     initializeResult();
     saveCurrentQuestion(0);
+  }, []);
 
-  }
-
-  const startTesting = () => {
+  const startTesting = useCallback(() => {
     saveIsTestStarted(true);
     saveCurrentQuestion(1);
     initializeResult();
-  }
+  }, []);
 
-  const finishTesting = () => {
+  const finishTesting = useCallback(() => {
     saveIsTestFinished(true);
-  }
+  }, []);
+
+  const saveResult = useCallback((results: TestResultsType) => {
+    localStorage.setItem('testResults', JSON.stringify(results));
+  }, []);
+
+  const saveCurrentQuestion = useCallback((currentQuestion: number) => {
+    setCurrentQuestion(currentQuestion);
+    localStorage.setItem('currentQuestion', JSON.stringify(currentQuestion));
+  }, []);
 
   const initializeResult = () => {
     setTesResults([]);
     localStorage.setItem('testResults', JSON.stringify([]));
-  }
-
-  const saveResult = (results: TestResultsType) => {
-    localStorage.setItem('testResults', JSON.stringify(results));
   }
 
   const saveIsTestStarted = (isTestStarted: boolean) => {
@@ -80,13 +84,8 @@ function App() {
     localStorage.setItem('isTestFinished', JSON.stringify(isTestFinished));
   }
 
-  const saveCurrentQuestion = (currentQuestion: number) => {
-    setCurrentQuestion(currentQuestion);
-    localStorage.setItem('currentQuestion', JSON.stringify(currentQuestion));
-  }
-
   return (
-    <div className='app'>
+    <div>
       <div className="wrap">
         {!isTestStarted && <Introduction startTesting={startTesting}
                                          testDescription={testDescription}

@@ -4,9 +4,6 @@
   box-sizing: border-box;
 }
 
-.app {
-}
-
 .wrap {
   display: flex;
   justify-content: center;
@@ -15,7 +12,7 @@
 }
 
 .mainBlock {
-padding: 20px 20px 20px 20px ;
+padding: 30px 30px 30px 30px ;
   width: 800px;
   border: 1px darkgrey solid;
   border-radius: 5px;
