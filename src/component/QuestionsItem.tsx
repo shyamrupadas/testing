@@ -27,7 +27,6 @@ export const QuestionsItem: React.FC<QuestionsItemType> = ({
     const newResult = testResult;
     newResult.push({ id: index + 1, questionResult: e.target.innerText });
     dispatch({type: 'SET_RESULTS', payload: newResult})
-    // saveResult(newResult);
 
     if (quantity === index + 1) {
       dispatch({type: 'TEST_FINISH'});

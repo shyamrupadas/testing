@@ -1,3 +1,11 @@
+export type TestDataType = {
+    initTestDescription: string
+    finishedTestDescription: string
+    testQuestions: TestQuestionsType
+};
+
+export type TestDataPropsType = { testData: TestDataType};
+
 export type TestQuestionsItemType = {
   id: number
   questionText: string
@@ -9,7 +17,6 @@ export type TestResultsItemType = {
   id: number | null
   questionResult: 'да' | 'нет'
 };
-export type TestResultsType = Array<TestResultsItemType>;
 
 export type State = {
   testState: 'init' | 'start' | 'finished'
