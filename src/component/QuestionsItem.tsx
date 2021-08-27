@@ -23,12 +23,8 @@ export const QuestionsItem: React.FC<QuestionsItemType> = ({
                                                              saveResult,
                                                              saveCurrentQuestion
                                                            }) => {
-  const visibleStyle: CSSProperties = { display: 'none' };
-  const visibleOn = () => {
-    visibleStyle.display = 'block'
-  };
-
-  index === currentQuestion - 1 && visibleOn();
+  const isVisible = index === currentQuestion - 1;
+  const visibleStyle: CSSProperties = { display: isVisible? 'block' : 'none' };
 
   const onButton = (e: any) => {
     quantity === index + 1 && finishTesting();
@@ -37,12 +33,8 @@ export const QuestionsItem: React.FC<QuestionsItemType> = ({
     saveResult(testResults);
   };
 
-  const createMarkup = () => {
-    return { __html: question.questionText }
-  };
-
   return <div style={visibleStyle} className='questionsBlock'>
-    <div className='questionsText' dangerouslySetInnerHTML={createMarkup()} />
+    <div className='questionsText' dangerouslySetInnerHTML={{ __html: question.questionText }} />
     <Button outline className='button' color='primary' onClick={(e) => onButton(e)}>Да</Button>
     <Button outline className='button' color='danger' onClick={(e) => onButton(e)}>Нет</Button>
     <div>
