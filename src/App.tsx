@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
 import { Introduction } from './component/Introduction';
 import { Testing } from './component/Testing';
 import { ResultPage } from './component/ResultPage';
-import { State, TestQuestionsType } from './types/types';
+import { TestQuestionsType } from './types/types';
 import { useAppState } from './state/context';
 
 const App = () => {
@@ -31,39 +31,12 @@ const App = () => {
     },
   ];
 
-  const [state, setState] = useState<State>(
-    JSON.parse(localStorage.getItem('state') as string) || {
-      testState: 'introduce',
-      currentQuestion: 0,
-      testResult: []
-    });
-
-  const saveState = (state: State) => {
-    setState(state);
-    localStorage.setItem('state', JSON.stringify(state));
-  };
-
-  const initializeApp = () => {
-    saveState(
-      {
-        ...state,
-        testState: 'init',
-        currentQuestion: 0,
-        testResult: []
-      });
-  };
-
-  const { testState, testResult } = useAppState();
-
-  console.log(testResult);
+  const { testState } = useAppState();
 
   return <div className="app">
     {testState === 'init' && <Introduction testDescription={testDescription} />}
     {testState === 'start' && <Testing testQuestions={testQuestions} />}
-    {testState === 'finished' && <ResultPage initializeApp={initializeApp}
-                                             finishedTestDescription={finishedTestDescription}
-                                             state={state}
-    />}
+    {testState === 'finished' && <ResultPage finishedTestDescription={finishedTestDescription} />}
   </div>
 }
 

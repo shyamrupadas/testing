@@ -1,29 +1,25 @@
 import React from 'react';
 import { Button } from 'reactstrap';
-import { State } from '../types/types';
+import { useAppDispatch, useAppState } from '../state/context';
 
 type ResultPageType = {
-  state: State
-  initializeApp: () => void
   finishedTestDescription: string
 };
 
-export const ResultPage: React.FC<ResultPageType> = ({
-                                                       state,
-                                                       initializeApp,
-                                                       finishedTestDescription,
-                                                     }) => {
+export const ResultPage: React.FC<ResultPageType> = ({ finishedTestDescription}) => {
+  const { testResult } = useAppState();
+  const dispatch = useAppDispatch();
 
   return <div className='mainBlock'>
     <div className='contentBlock'>
       <div dangerouslySetInnerHTML={{ __html: finishedTestDescription }} />
-      <Button className='button' outline color='primary' onClick={initializeApp}>Пройти заново</Button>
+      <Button className='button' outline color='primary' onClick={
+        () => dispatch({ type: 'TEST_INIT' })
+      }>Пройти заново</Button>
       <h4>Ваши результаты</h4>
       <div>
-        {state.testResult.map(r => {
-          return <div key={r.id}>
-            Вопрос {r.id} - {r.questionResult}
-          </div>
+        {testResult.map(r => {
+          return <div key={r.id}> Вопрос {r.id} - {r.questionResult} </div>
         })}
       </div>
     </div>
