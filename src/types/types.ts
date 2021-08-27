@@ -7,6 +7,6 @@ export type TestQuestionsType = Array<TestQuestionsItemType>;
 
 export type TestResultsItemType = {
   id: number
-  questionResult: 'yes' | 'no'
+  questionResult: 'да' | 'нет'
 };
 export type TestResultsType = Array<TestResultsItemType>;
