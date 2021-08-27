@@ -12,7 +12,7 @@ export type TestResultsItemType = {
 export type TestResultsType = Array<TestResultsItemType>;
 
 export type State = {
-  testState: 'introduce' | 'start' | 'finished'
+  testState: 'init' | 'start' | 'finished'
   currentQuestion: number
   testResult: Array<TestResultsItemType>
 };

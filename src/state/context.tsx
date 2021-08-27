@@ -1,8 +1,11 @@
 import React from 'react';
-import { State } from '../types/types';
+import { State, TestResultsItemType } from '../types/types';
 
-type Action = { type: 'TEST_START' }
-  | { type: 'DELETE_GOAL' };
+type Action = { type: 'TEST_START' } |
+  { type: 'INCREMENT_CURRENT_QUESTION', payload: number } |
+  { type: 'SET_RESULTS', payload: TestResultsItemType[] } |
+  { type: 'TEST_FINISH' } |
+  { type: 'TEST_INIT' };
 type Dispatch = (action: Action) => void
 type StateProviderProps = { children: React.ReactNode };
 
@@ -12,25 +15,48 @@ const DispatchContext = React.createContext<Dispatch | undefined>(undefined)
 
 const appReducer = (state: State, action: Action) => {
   switch (action.type) {
-    case 'TEST_START': {
+    case 'TEST_START':
       return {
         ...state,
         testState: 'start',
-        currentQuestion: 1,
+        currentQuestion: 1
+      }
+    case 'INCREMENT_CURRENT_QUESTION':
+      return {
+        ...state,
+        currentQuestion: action.payload + 1
+      }
+    case 'SET_RESULTS':
+      return {
+        ...state,
+        testResult: action.payload
+      }
+    case 'TEST_FINISH':
+      return {
+        ...state,
+        testState: 'finished'
+      }
+    case 'TEST_INIT':
+      return {
+        ...state,
+        testState: 'init',
+        currentQuestion: 0,
+        testResult: []
+      }
+
+    default:
+      return {
+        ...state
       }
     }
 
-    default: {
-      throw new Error(`Unhandled action type: ${action.type}`)
-    }
-  }
 };
 
 const ContextProvider = ({ children }: StateProviderProps) => {
   // @ts-ignore
   const [appState, appDispatch] = React.useReducer(appReducer, {
     // JSON.parse(localStorage.getItem('state') as string) ||
-    testState: 'introduce',
+    testState: 'init',
     currentQuestion: 0,
     testResult: []
   });

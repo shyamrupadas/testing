@@ -1,41 +1,39 @@
 import React, { CSSProperties } from 'react';
 import { Button } from 'reactstrap';
-import { State, TestQuestionsItemType } from '../types/types';
+import { TestQuestionsItemType } from '../types/types';
+import { useAppDispatch, useAppState } from '../state/context';
 
 type QuestionsItemType = {
-  state: State
   question: TestQuestionsItemType
   quantity: number
   index: number
-  finishTesting: () => void
-  saveResult: any
-  saveCurrentQuestion: (currentQuestion: number) => void
 };
 
 export const QuestionsItem: React.FC<QuestionsItemType> = ({
-                                                             state,
                                                              question,
                                                              quantity,
                                                              index,
-                                                             finishTesting,
-                                                             saveResult,
-                                                             saveCurrentQuestion
                                                            }) => {
-  const isVisible = index === state.currentQuestion - 1;
+
+  const { currentQuestion, testResult } = useAppState();
+  const dispatch = useAppDispatch();
+
+  const isVisible = index === currentQuestion - 1;
   const visibleStyle: CSSProperties = { display: isVisible ? 'block' : 'none' };
 
   const onButton = (e: any) => {
 
-    const newResult = state.testResult;
+    // todo сделать 'SET_RESULTS' проще
+    const newResult = testResult;
     newResult.push({ id: index + 1, questionResult: e.target.innerText });
-    saveResult(newResult);
+    dispatch({type: 'SET_RESULTS', payload: newResult})
+    // saveResult(newResult);
 
     if (quantity === index + 1) {
-      finishTesting();
+      dispatch({type: 'TEST_FINISH'});
       return;
     }
-
-    saveCurrentQuestion(state.currentQuestion + 1);
+    dispatch({ type: 'INCREMENT_CURRENT_QUESTION', payload: currentQuestion });
   };
 
   return <div style={visibleStyle} className='questionsBlock'>

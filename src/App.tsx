@@ -3,7 +3,7 @@ import './App.css';
 import { Introduction } from './component/Introduction';
 import { Testing } from './component/Testing';
 import { ResultPage } from './component/ResultPage';
-import { State, TestQuestionsType, TestResultsType } from './types/types';
+import { State, TestQuestionsType } from './types/types';
 import { useAppState } from './state/context';
 
 const App = () => {
@@ -47,44 +47,19 @@ const App = () => {
     saveState(
       {
         ...state,
-        testState: 'introduce',
+        testState: 'init',
         currentQuestion: 0,
         testResult: []
       });
   };
 
-  const finishTesting = () => {
-    saveState(
-      {
-        ...state,
-        testState: 'finished'
-      });
-  };
+  const { testState, testResult } = useAppState();
 
-  const saveResult = (results: TestResultsType) => {
-    saveState(
-      {
-        ...state, testResult: results
-      });
-  };
-
-  const saveCurrentQuestion = (currentQuestion: number) => {
-    saveState(
-      {
-        ...state, currentQuestion: currentQuestion
-      });
-  };
-
-  const { testState } = useAppState();
+  console.log(testResult);
 
   return <div className="app">
-    {testState === 'introduce' && <Introduction testDescription={testDescription} />}
-    {testState === 'start' && <Testing finishTesting={finishTesting}
-                                       testQuestions={testQuestions}
-                                       saveResult={saveResult}
-                                       saveCurrentQuestion={saveCurrentQuestion}
-                                       state={state}
-    />}
+    {testState === 'init' && <Introduction testDescription={testDescription} />}
+    {testState === 'start' && <Testing testQuestions={testQuestions} />}
     {testState === 'finished' && <ResultPage initializeApp={initializeApp}
                                              finishedTestDescription={finishedTestDescription}
                                              state={state}
