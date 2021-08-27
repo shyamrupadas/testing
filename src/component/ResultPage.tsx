@@ -13,18 +13,15 @@ export const ResultPage: React.FC<ResultPageType> = ({
                                                        finishedTestDescription,
                                                        testResults
                                                      }) => {
-  const createMarkup = () => {
-    return { __html: finishedTestDescription };
-  }
 
   return <div className='mainBlock'>
     <div className='contentBlock'>
-      <div dangerouslySetInnerHTML={createMarkup()} />
+      <div dangerouslySetInnerHTML={{ __html: finishedTestDescription }} />
       <Button className='button' outline color='primary' onClick={initializeApp}>Пройти заново</Button>
       <h4>Ваши результаты</h4>
       <div>
         {testResults.map(r => {
-          return <div>
+          return <div key={r.id}>
             Вопрос {r.id} - {r.questionResult}
           </div>
         })}
