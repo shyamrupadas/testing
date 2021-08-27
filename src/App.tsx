@@ -84,9 +84,8 @@ function App() {
     localStorage.setItem('isTestFinished', JSON.stringify(isTestFinished));
   }
 
-  return (
-    <div>
-      <div className="wrap">
+  return <div>
+      <div className="app">
         {!isTestStarted && <Introduction startTesting={startTesting}
                                          testDescription={testDescription}
         />}
@@ -103,7 +102,6 @@ function App() {
         />}
       </div>
     </div>
-  );
 }
 
 export default App;
