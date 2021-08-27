@@ -35,29 +35,24 @@ function App() {
   const [testResults, setTesResults] = useState(
     JSON.parse(localStorage.getItem('testResults') as string) || []);
 
-  const [isTestStarted, setIsTestStarted] = useState(
-    JSON.parse(localStorage.getItem('isTestStarted') as string) || false);
-  const [isTestFinished, setIsTestFinished] = useState(
-    JSON.parse(localStorage.getItem('isTestFinished') as string) || false);
-  const [currentQuestion, setCurrentQuestion] = useState(
-    JSON.parse(localStorage.getItem('currentQuestion') as string) || 0);
+  type TestState = 'introduce' | 'start' | 'finished';
+
+  const [testState, setTestState] = useState<TestState>('introduce');
 
   const initializeApp = useCallback(() => {
-    setIsTestStarted(false);
-    saveIsTestStarted(false);
-    saveIsTestFinished(false);
+    saveTestState('introduce');
     initializeResult();
     saveCurrentQuestion(0);
   }, []);
 
   const startTesting = useCallback(() => {
-    saveIsTestStarted(true);
+    saveTestState('start');
     saveCurrentQuestion(1);
     initializeResult();
   }, []);
 
   const finishTesting = useCallback(() => {
-    saveIsTestFinished(true);
+    saveTestState('finished');
   }, []);
 
   const saveResult = useCallback((results: TestResultsType) => {
@@ -74,34 +69,28 @@ function App() {
     localStorage.setItem('testResults', JSON.stringify([]));
   }
 
-  const saveIsTestStarted = (isTestStarted: boolean) => {
-    setIsTestStarted(isTestStarted);
-    localStorage.setItem('isTestStarted', JSON.stringify(isTestStarted));
+  const saveTestState = (value: TestState) => {
+    setTestState(value);
   }
 
-  const saveIsTestFinished = (isTestFinished: boolean) => {
-    setIsTestFinished(isTestFinished);
-    localStorage.setItem('isTestFinished', JSON.stringify(isTestFinished));
-  }
-
-  return <div>
-      <div className="app">
-        {!isTestStarted && <Introduction startTesting={startTesting}
-                                         testDescription={testDescription}
-        />}
-        {isTestStarted && !isTestFinished && <Testing finishTesting={finishTesting}
-                                                      testQuestions={testQuestions}
-                                                      testResults={testResults}
-                                                      saveResult={saveResult}
-                                                      currentQuestion={currentQuestion}
-                                                      saveCurrentQuestion={saveCurrentQuestion}
-        />}
-        {isTestStarted && isTestFinished && <ResultPage initializeApp={initializeApp}
-                                                        finishedTestDescription={finishedTestDescription}
-                                                        testResults={testResults}
-        />}
-      </div>
-    </div>
+return <div>
+  <div className="app">
+    {testState === 'introduce' && <Introduction startTesting={startTesting}
+                                                testDescription={testDescription}
+    />}
+    {testState === 'start' && <Testing finishTesting={finishTesting}
+                                       testQuestions={testQuestions}
+                                       testResults={testResults}
+                                       saveResult={saveResult}
+                                       currentQuestion={currentQuestion}
+                                       saveCurrentQuestion={saveCurrentQuestion}
+    />}
+    {testState === 'finished' && <ResultPage initializeApp={initializeApp}
+                                             finishedTestDescription={finishedTestDescription}
+                                             testResults={testResults}
+    />}
+  </div>
+</div>
 }
 
 export default App;
