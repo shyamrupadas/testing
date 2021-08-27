@@ -53,15 +53,6 @@ const App = () => {
       });
   };
 
-  const startTesting = () => {
-    saveState(
-      {
-        ...state,
-        testState: 'start',
-        currentQuestion: 1,
-      });
-  };
-
   const finishTesting = () => {
     saveState(
       {
@@ -84,23 +75,21 @@ const App = () => {
       });
   };
 
-  const {testState} = useAppState();
+  const { testState } = useAppState();
 
   return <div className="app">
-      {testState === 'introduce' && <Introduction startTesting={startTesting}
-                                                        testDescription={testDescription}
-      />}
-      {testState === 'start' && <Testing finishTesting={finishTesting}
-                                               testQuestions={testQuestions}
-                                               saveResult={saveResult}
-                                               saveCurrentQuestion={saveCurrentQuestion}
-                                               state={state}
-      />}
-      {testState === 'finished' && <ResultPage initializeApp={initializeApp}
-                                                     finishedTestDescription={finishedTestDescription}
-                                                     state={state}
-      />}
-    </div>
+    {testState === 'introduce' && <Introduction testDescription={testDescription} />}
+    {testState === 'start' && <Testing finishTesting={finishTesting}
+                                       testQuestions={testQuestions}
+                                       saveResult={saveResult}
+                                       saveCurrentQuestion={saveCurrentQuestion}
+                                       state={state}
+    />}
+    {testState === 'finished' && <ResultPage initializeApp={initializeApp}
+                                             finishedTestDescription={finishedTestDescription}
+                                             state={state}
+    />}
+  </div>
 }
 
 export default App;
