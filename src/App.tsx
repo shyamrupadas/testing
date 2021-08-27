@@ -4,8 +4,9 @@ import { Introduction } from './component/Introduction';
 import { Testing } from './component/Testing';
 import { ResultPage } from './component/ResultPage';
 import { State, TestQuestionsType, TestResultsType } from './types/types';
+import { useAppState } from './state/context';
 
-function App() {
+const App = () => {
 
   const testDescription: string = `
   <h3>Здравствуйте!</h3>
@@ -83,21 +84,23 @@ function App() {
       });
   };
 
+  const {testState} = useAppState();
+
   return <div className="app">
-    {state.testState === 'introduce' && <Introduction startTesting={startTesting}
-                                                      testDescription={testDescription}
-    />}
-    {state.testState === 'start' && <Testing finishTesting={finishTesting}
-                                             testQuestions={testQuestions}
-                                             saveResult={saveResult}
-                                             saveCurrentQuestion={saveCurrentQuestion}
-                                             state={state}
-    />}
-    {state.testState === 'finished' && <ResultPage initializeApp={initializeApp}
-                                                   finishedTestDescription={finishedTestDescription}
-                                                   state={state}
-    />}
-  </div>
+      {testState === 'introduce' && <Introduction startTesting={startTesting}
+                                                        testDescription={testDescription}
+      />}
+      {testState === 'start' && <Testing finishTesting={finishTesting}
+                                               testQuestions={testQuestions}
+                                               saveResult={saveResult}
+                                               saveCurrentQuestion={saveCurrentQuestion}
+                                               state={state}
+      />}
+      {testState === 'finished' && <ResultPage initializeApp={initializeApp}
+                                                     finishedTestDescription={finishedTestDescription}
+                                                     state={state}
+      />}
+    </div>
 }
 
 export default App;
