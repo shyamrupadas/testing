@@ -39,6 +39,9 @@ function App() {
 
   const [testState, setTestState] = useState<TestState>('introduce');
 
+  const [currentQuestion, setCurrentQuestion] = useState(
+    JSON.parse(localStorage.getItem('currentQuestion') as string) || 0);
+
   const initializeApp = useCallback(() => {
     saveTestState('introduce');
     initializeResult();
@@ -73,8 +76,7 @@ function App() {
     setTestState(value);
   }
 
-return <div>
-  <div className="app">
+return <div className="app">
     {testState === 'introduce' && <Introduction startTesting={startTesting}
                                                 testDescription={testDescription}
     />}
@@ -90,7 +92,6 @@ return <div>
                                              testResults={testResults}
     />}
   </div>
-</div>
 }
 
 export default App;
