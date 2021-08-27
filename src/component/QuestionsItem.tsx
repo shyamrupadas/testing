@@ -1,36 +1,41 @@
 import React, { CSSProperties } from 'react';
 import { Button } from 'reactstrap';
-import { TestQuestionsItemType, TestResultsType } from '../types/types';
+import { State, TestQuestionsItemType } from '../types/types';
 
 type QuestionsItemType = {
+  state: State
   question: TestQuestionsItemType
   quantity: number
   index: number
-  currentQuestion: number
   finishTesting: () => void
-  testResults: TestResultsType
-  saveResult: (result: TestResultsType) => void
+  saveResult: any
   saveCurrentQuestion: (currentQuestion: number) => void
 };
 
 export const QuestionsItem: React.FC<QuestionsItemType> = ({
+                                                             state,
                                                              question,
                                                              quantity,
                                                              index,
-                                                             currentQuestion,
                                                              finishTesting,
-                                                             testResults,
                                                              saveResult,
                                                              saveCurrentQuestion
                                                            }) => {
-  const isVisible = index === currentQuestion - 1;
-  const visibleStyle: CSSProperties = { display: isVisible? 'block' : 'none' };
+  const isVisible = index === state.currentQuestion - 1;
+  const visibleStyle: CSSProperties = { display: isVisible ? 'block' : 'none' };
 
   const onButton = (e: any) => {
-    quantity === index + 1 && finishTesting();
-    saveCurrentQuestion(currentQuestion + 1);
-    testResults.push({ id: index + 1, questionResult: e.target.innerText });
-    saveResult(testResults);
+
+    const newResult = state.testResult;
+    newResult.push({ id: index + 1, questionResult: e.target.innerText });
+    saveResult(newResult);
+
+    if (quantity === index + 1) {
+      finishTesting();
+      return;
+    }
+
+    saveCurrentQuestion(state.currentQuestion + 1);
   };
 
   return <div style={visibleStyle} className='questionsBlock'>

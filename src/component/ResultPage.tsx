@@ -1,17 +1,17 @@
 import React from 'react';
 import { Button } from 'reactstrap';
-import { TestResultsType } from '../types/types';
+import { State } from '../types/types';
 
 type ResultPageType = {
+  state: State
   initializeApp: () => void
   finishedTestDescription: string
-  testResults: TestResultsType
 };
 
 export const ResultPage: React.FC<ResultPageType> = ({
+                                                       state,
                                                        initializeApp,
                                                        finishedTestDescription,
-                                                       testResults
                                                      }) => {
 
   return <div className='mainBlock'>
@@ -20,7 +20,7 @@ export const ResultPage: React.FC<ResultPageType> = ({
       <Button className='button' outline color='primary' onClick={initializeApp}>Пройти заново</Button>
       <h4>Ваши результаты</h4>
       <div>
-        {testResults.map(r => {
+        {state.testResult.map(r => {
           return <div key={r.id}>
             Вопрос {r.id} - {r.questionResult}
           </div>

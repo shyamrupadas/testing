@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import { Introduction } from './component/Introduction';
 import { Testing } from './component/Testing';
 import { ResultPage } from './component/ResultPage';
-import { TestQuestionsType, TestResultsType } from './types/types';
+import { State, TestQuestionsType, TestResultsType } from './types/types';
 
 function App() {
 
@@ -11,12 +11,10 @@ function App() {
   <h3>Здравствуйте!</h3>
   <p>Предлагаем пройти наше <strong>тестирование</strong></p>
   `;
-
   const finishedTestDescription: string = `
    Спасибо большое, что приняли участие в нашем <strong>тестировании</strong>.<br />
    Всего вам доброго!
   `;
-
   const testQuestions: TestQuestionsType = [
     {
       id: 1,
@@ -32,69 +30,74 @@ function App() {
     },
   ];
 
-  const [testResults, setTesResults] = useState(
-    JSON.parse(localStorage.getItem('testResults') as string) || []);
+  const [state, setState] = useState<State>(
+    JSON.parse(localStorage.getItem('state') as string) || {
+      testState: 'introduce',
+      currentQuestion: 0,
+      testResult: []
+    });
 
-  type TestState = 'introduce' | 'start' | 'finished';
+  const saveState = (state: State) => {
+    setState(state);
+    localStorage.setItem('state', JSON.stringify(state));
+  };
 
-  const [testState, setTestState] = useState<TestState>(
-    JSON.parse(localStorage.getItem('testState') as string) || 'introduce');
+  const initializeApp = () => {
+    saveState(
+      {
+        ...state,
+        testState: 'introduce',
+        currentQuestion: 0,
+        testResult: []
+      });
+  };
 
-  const [currentQuestion, setCurrentQuestion] = useState(
-    JSON.parse(localStorage.getItem('currentQuestion') as string) || 0);
+  const startTesting = () => {
+    saveState(
+      {
+        ...state,
+        testState: 'start',
+        currentQuestion: 1,
+      });
+  };
 
-  const initializeApp = useCallback(() => {
-    saveTestState('introduce');
-    initializeResult();
-    saveCurrentQuestion(0);
-  }, []);
+  const finishTesting = () => {
+    saveState(
+      {
+        ...state,
+        testState: 'finished'
+      });
+  };
 
-  const startTesting = useCallback(() => {
-    saveTestState('start');
-    saveCurrentQuestion(1);
-    initializeResult();
-  }, []);
+  const saveResult = (results: TestResultsType) => {
+    saveState(
+      {
+        ...state, testResult: results
+      });
+  };
 
-  const finishTesting = useCallback(() => {
-    saveTestState('finished');
-  }, []);
+  const saveCurrentQuestion = (currentQuestion: number) => {
+    saveState(
+      {
+        ...state, currentQuestion: currentQuestion
+      });
+  };
 
-  const saveResult = useCallback((results: TestResultsType) => {
-    localStorage.setItem('testResults', JSON.stringify(results));
-  }, []);
-
-  const saveCurrentQuestion = useCallback((currentQuestion: number) => {
-    setCurrentQuestion(currentQuestion);
-    localStorage.setItem('currentQuestion', JSON.stringify(currentQuestion));
-  }, []);
-
-  const initializeResult = () => {
-    setTesResults([]);
-    localStorage.setItem('testResults', JSON.stringify([]));
-  }
-
-  const saveTestState = (value: TestState) => {
-    setTestState(value);
-    localStorage.setItem('testState', JSON.stringify(value));
-  }
-
-return <div className="app">
-    {testState === 'introduce' && <Introduction startTesting={startTesting}
-                                                testDescription={testDescription}
+  return <div className="app">
+    {state.testState === 'introduce' && <Introduction startTesting={startTesting}
+                                                      testDescription={testDescription}
     />}
-    {testState === 'start' && <Testing finishTesting={finishTesting}
-                                       testQuestions={testQuestions}
-                                       testResults={testResults}
-                                       saveResult={saveResult}
-                                       currentQuestion={currentQuestion}
-                                       saveCurrentQuestion={saveCurrentQuestion}
+    {state.testState === 'start' && <Testing finishTesting={finishTesting}
+                                             testQuestions={testQuestions}
+                                             saveResult={saveResult}
+                                             saveCurrentQuestion={saveCurrentQuestion}
+                                             state={state}
     />}
-    {testState === 'finished' && <ResultPage initializeApp={initializeApp}
-                                             finishedTestDescription={finishedTestDescription}
-                                             testResults={testResults}
+    {state.testState === 'finished' && <ResultPage initializeApp={initializeApp}
+                                                   finishedTestDescription={finishedTestDescription}
+                                                   state={state}
     />}
   </div>
 }
 
 export default App;
-

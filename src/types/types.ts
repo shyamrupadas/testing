@@ -6,7 +6,13 @@ export type TestQuestionsItemType = {
 export type TestQuestionsType = Array<TestQuestionsItemType>;
 
 export type TestResultsItemType = {
-  id: number
+  id: number | null
   questionResult: 'да' | 'нет'
 };
 export type TestResultsType = Array<TestResultsItemType>;
+
+export type State = {
+  testState: 'introduce' | 'start' | 'finished'
+  currentQuestion: number
+  testResult: Array<TestResultsItemType>
+};
