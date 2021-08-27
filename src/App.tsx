@@ -37,7 +37,8 @@ function App() {
 
   type TestState = 'introduce' | 'start' | 'finished';
 
-  const [testState, setTestState] = useState<TestState>('introduce');
+  const [testState, setTestState] = useState<TestState>(
+    JSON.parse(localStorage.getItem('testState') as string) || 'introduce');
 
   const [currentQuestion, setCurrentQuestion] = useState(
     JSON.parse(localStorage.getItem('currentQuestion') as string) || 0);
@@ -74,6 +75,7 @@ function App() {
 
   const saveTestState = (value: TestState) => {
     setTestState(value);
+    localStorage.setItem('testState', JSON.stringify(value));
   }
 
 return <div className="app">
