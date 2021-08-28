@@ -8,7 +8,6 @@ import { useAppState } from './state/context';
 
 const App: React.FC<TestDataPropsType> = ({ testData }) => {
 
-
   const { testState, testResult, currentQuestion } = useAppState();
 
   useEffect(() => {

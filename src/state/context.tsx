@@ -9,7 +9,6 @@ type Action = { type: 'TEST_START' } |
 type Dispatch = (action: Action) => void
 type StateProviderProps = { children: React.ReactNode };
 
-
 const StateContext = React.createContext<State | undefined>(undefined);
 const DispatchContext = React.createContext<Dispatch | undefined>(undefined)
 
@@ -47,18 +46,23 @@ const appReducer = (state: State, action: Action) => {
       return {
         ...state
       }
-    }
+  }
+};
 
+const initState = (testState: string, currentQuestion: number, testResult: Array<TestResultsItemType>) => {
+
+  const initState = JSON.parse(localStorage.getItem('state') as string) ||
+    {
+      testState: testState,
+      currentQuestion: currentQuestion,
+      testResult: testResult
+    }
+  return { ...initState }
 };
 
 const ContextProvider = ({ children }: StateProviderProps) => {
   // @ts-ignore
-  const [appState, appDispatch] = React.useReducer(appReducer, {
-    // JSON.parse(localStorage.getItem('state') as string) ||
-    testState: 'init',
-    currentQuestion: 0,
-    testResult: []
-  });
+  const [appState, appDispatch] = React.useReducer(appReducer, ('init', 0, []), initState);
 
   return <StateContext.Provider value={appState}>
     <DispatchContext.Provider value={appDispatch}>

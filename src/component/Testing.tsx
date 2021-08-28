@@ -6,9 +6,7 @@ type IntroductionType = {
   testQuestions: TestQuestionsType
 };
 
-export const Testing: React.FC<IntroductionType> = ({
-                                                      testQuestions,
-                                                    }) => {
+export const Testing: React.FC<IntroductionType> = ({ testQuestions }) => {
 
   const questionsQuantity = testQuestions.length;
 
