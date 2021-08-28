@@ -15,7 +15,7 @@ export const QuestionsItem: React.FC<QuestionsItemType> = ({
                                                              index,
                                                            }) => {
 
-  const { currentQuestion, testResult } = useAppState();
+  const { currentQuestion } = useAppState();
   const dispatch = useAppDispatch();
 
   const isVisible = index === currentQuestion - 1;
@@ -23,10 +23,7 @@ export const QuestionsItem: React.FC<QuestionsItemType> = ({
 
   const onButton = (e: any) => {
 
-    // todo сделать 'SET_RESULTS' проще
-    const newResult = testResult;
-    newResult.push({ id: index + 1, questionResult: e.target.innerText });
-    dispatch({type: 'SET_RESULTS', payload: newResult})
+    dispatch({type: 'SET_RESULTS', payload: { id: index + 1, questionResult: e.target.innerText }})
 
     if (quantity === index + 1) {
       dispatch({type: 'TEST_FINISH'});

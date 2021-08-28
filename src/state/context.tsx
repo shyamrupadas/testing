@@ -3,7 +3,7 @@ import { State, TestResultsItemType } from '../types/types';
 
 type Action = { type: 'TEST_START' } |
   { type: 'INCREMENT_CURRENT_QUESTION', payload: number } |
-  { type: 'SET_RESULTS', payload: TestResultsItemType[] } |
+  { type: 'SET_RESULTS', payload: TestResultsItemType } |
   { type: 'TEST_FINISH' } |
   { type: 'TEST_INIT' };
 type Dispatch = (action: Action) => void
@@ -28,8 +28,7 @@ const appReducer = (state: State, action: Action) => {
       }
     case 'SET_RESULTS':
       return {
-        ...state,
-        testResult: action.payload
+        ...state, testResult: [...state.testResult, action.payload]
       }
     case 'TEST_FINISH':
       return {
