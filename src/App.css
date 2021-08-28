@@ -29,7 +29,8 @@
   }
 }
 
-.questionsBlock {
+.questionsText {
+  min-height: 10vh;
   animation: showQuestionsBlock .2s forwards;
 }
 
