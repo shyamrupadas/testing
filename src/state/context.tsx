@@ -49,6 +49,14 @@ const appReducer = (state: State, action: Action) => {
   }
 };
 
+const saveStateMiddleware = (state: State, action: Action) => {
+  const newState = appReducer(state, action);
+  if (newState !== state) {
+    localStorage.setItem('state', JSON.stringify(newState));
+  }
+  return newState;
+};
+
 const initState = (testState: string, currentQuestion: number, testResult: Array<TestResultsItemType>) => {
 
   const initState = JSON.parse(localStorage.getItem('state') as string) ||
@@ -62,13 +70,14 @@ const initState = (testState: string, currentQuestion: number, testResult: Array
 
 const ContextProvider = ({ children }: StateProviderProps) => {
   // @ts-ignore
-  const [appState, appDispatch] = React.useReducer(appReducer, ('init', 0, []), initState);
+  const [appState, appDispatch] = React.useReducer(saveStateMiddleware, ('init', 0, []), initState);
 
-  return <StateContext.Provider value={appState}>
-    <DispatchContext.Provider value={appDispatch}>
+  return <DispatchContext.Provider value={appDispatch}>
+    <StateContext.Provider value={appState}>
       {children}
-    </DispatchContext.Provider>
-  </StateContext.Provider>
+    </StateContext.Provider>
+  </DispatchContext.Provider>
+
 };
 
 
