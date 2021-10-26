@@ -18,7 +18,8 @@ const appReducer = (state: State, action: Action) => {
       return {
         ...state,
         testState: 'start',
-        currentQuestion: 1
+        currentQuestion: 1,
+        testResult: []
       }
     case 'INCREMENT_CURRENT_QUESTION':
       return {
@@ -70,23 +71,23 @@ const initState = (testState: string, currentQuestion: number, testResult: Array
 
 const ContextProvider = ({ children }: StateProviderProps) => {
   // @ts-ignore
-  const [appState, appDispatch] = React.useReducer(saveStateMiddleware, ('init', 0, []), initState);
+  const [appState, appDispatch] = React.useReducer(saveStateMiddleware, ('init'), initState);
 
   return <DispatchContext.Provider value={appDispatch}>
     <StateContext.Provider value={appState}>
       {children}
     </StateContext.Provider>
   </DispatchContext.Provider>
-
 };
 
 
 const useAppState = () => {
   const context = React.useContext(StateContext)
+
   if (context === undefined) {
     throw new Error('useCountState must be used within a ContextProvider')
   }
-  return context
+  return context;
 };
 
 const useAppDispatch = () => {
@@ -94,7 +95,7 @@ const useAppDispatch = () => {
   if (context === undefined) {
     throw new Error('useCountDispatch must be used within a ContextProvider')
   }
-  return context
+  return context;
 };
 
 export { ContextProvider, useAppState, useAppDispatch }

@@ -7,7 +7,6 @@ import { TestDataPropsType } from './types/types';
 import { useAppState } from './state/context';
 
 const App: React.FC<TestDataPropsType> = ({ testData }) => {
-
   const { testState } = useAppState();
 
   return <div className="app">
