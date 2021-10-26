@@ -1,7 +1,7 @@
 # Testing module
 
 ## Модуль для проведения тестирования
-Демо: 
+Демо: https://testing-app-module.netlify.app/
 
 ## Используемые технологии:
 
